@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rexons - Discover Mods & Addons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .dl-btn { background: linear-gradient(135deg, #1d9bf0 0%, #0d78c9 100%); color: white; border: none; border-radius: 8px; padding: 8px 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(29, 155, 240, 0.2); }
+        .dl-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(29, 155, 240, 0.4); }
+        .dl-btn:active { transform: translateY(0); }
+        .dl-btn:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; color: #64748b; }
+        .btn-outline { background: transparent; color: #1d9bf0; border: 1.5px solid #1d9bf0; box-shadow: none; }
+        .btn-outline:hover { background: rgba(29, 155, 240, 0.1); }
+        .btn-success { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2); }
+        .btn-success:hover { box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4); }
+        .filter-btn { border-radius: 20px; transition: all 0.3s ease; border: 1px solid transparent; background: #f1f5f9; color: #475569; }
+        .filter-btn:hover { background: #e2e8f0; }
+        .filter-btn.active { background: linear-gradient(135deg, #1d9bf0 0%, #0d78c9 100%); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(29, 155, 240, 0.35); }
+
+        .project-card { display: flex; flex-direction: column; overflow: hidden; padding: 0; background: white; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; }
+        .project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .card-banner { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid #e2e8f0; }
+        .card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .btn-group { display: flex; gap: 10px; width: 100%; }
+
+        /* CSS KHUSUS MODAL KOMENTAR */
+        .comment-list { max-height: 300px; overflow-y: auto; margin-bottom: 15px; padding-right: 5px; }
+        .comment-item { background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; }
+        .comment-user { font-weight: bold; color: #1e293b; font-size: 0.9rem; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center;}
+        .comment-date { font-size: 0.75rem; color: #94a3b8; font-weight: normal; }
+        .comment-text { font-size: 0.9rem; color: #475569; line-height: 1.4; word-wrap: break-word; }
+        .comment-input-area { display: flex; gap: 10px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        .comment-input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-family: 'Inter'; outline: none; }
+        .comment-input:focus { border-color: #1d9bf0; }
+
+        /* CSS EFEK NAMA PREMIUM/VIP EMAS */
+        .premium-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-shadow: 0px 2px 8px rgba(251, 191, 36, 0.4);
+            display: inline-block;
+        }
+        .premium-badge {
+            color: #fbbf24;
+            margin-left: 3px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">REXONS</div>
+            <div class="search-box" style="display: flex; align-items: center; gap: 15px;">
+                <input type="text" id="searchInput" placeholder="Cari karya...">
+                <div id="authButtons" style="display: flex; gap: 10px;">
+                    <button id="openLoginBtn" class="dl-btn btn-outline">Login</button>
+                    <button id="openRegisterBtn" class="dl-btn">Daftar</button>
+                </div>
+                <div id="userProfile" style="display: none; font-weight: 600; color: var(--accent-blue); align-items: center;">
+                    <button id="openUploadBtn" class="dl-btn btn-success" style="display: none; margin-right: 15px; padding: 6px 14px; font-size: 0.85rem;">+ Upload</button>
+                    Halo, <span id="displayUsername" style="margin-left: 5px; margin-right: 2px;"></span> 
+                    <svg id="verifiedBadge" style="display: none; width: 18px; height: 18px; margin-right: 5px; color: #1d9bf0;" fill="currentColor" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.792-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.74 2.746 1.867 3.45-.094.373-.146.76-.146 1.15 0 2.21 1.71 3.998 3.918 3.998.47 0 .92-.084 1.336-.25C8.982 21.585 10.29 22.5 12 22.5s2.816-.917 3.337-2.25c.416.165.866.25 1.336.25 2.21 0 3.918-1.792 3.918-4 0-.39-.052-.776-.146-1.15 1.127-.704 1.867-1.99 1.867-3.45zm-11.49 4.316L6.52 12.32l1.34-1.43 2.97 2.78 5.67-6.57 1.49 1.28-7.16 8.436z"/></svg>! 
+                    <button id="logoutBtn" style="background: none; border: none; color: #e74c3c; font-weight: 600; cursor: pointer; margin-left: 10px; font-size: 0.9rem;">[Keluar]</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <aside class="sidebar">
+            <button class="filter-btn active" data-edition="All" data-category="All" style="margin-bottom: 20px;">Semua Konten</button>
+            <h3>Java Edition</h3>
+            <ul class="filter-list">
+                <li><button class="filter-btn" data-edition="Java" data-category="Mod">Mods</button></li>
+                <li><button class="filter-btn" data-edition="Java" data-category="Resource Pack">Resource Packs</button></li>
+                <li><button class="filter-btn" data-edition="Java" data-category="Shaders">Shaders</button></li>
+                <li><button class="filter-btn" data-edition="Java" data-category="World">Worlds</button></li>
+            </ul>
+            <h3 style="margin-top: 25px;">Bedrock Edition</h3>
+            <ul class="filter-list">
+                <li><button class="filter-btn" data-edition="Bedrock" data-category="Add-on">Add-ons</button></li>
+                <li><button class="filter-btn" data-edition="Bedrock" data-category="Resource Pack">Resource Packs</button></li>
+                <li><button class="filter-btn" data-edition="Bedrock" data-category="World">Worlds</button></li>
+                <li><button class="filter-btn" data-edition="Bedrock" data-category="DLC">DLCs</button></li>
+            </ul>
+        </aside>
+
+        <main class="content-area">
+            <div class="results-header"><span id="resultCount">Memuat berkas...</span></div>
+            <div class="project-grid" id="projectGrid"></div>
+        </main>
+    </div>
+
+    <!-- MODAL AUTENTIKASI -->
+    <div id="authModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box" style="border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            <div class="modal-header"><h2 id="modalTitle">Masuk ke Rexons</h2><button id="closeModalBtn" class="close-btn">&times;</button></div>
+            <form id="authForm">
+                <input type="hidden" id="authMode" value="login">
+                <div id="standardInputs">
+                    <div class="form-group"><label>Username</label><input type="text" id="username" required></div>
+                    <div class="form-group" id="emailGroup" style="display: none;"><label>Alamat Email</label><input type="email" id="email"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="password" required></div>
+                </div>
+                <div class="form-group" id="otpGroup" style="display: none;">
+                    <label style="color: #1d9bf0; font-weight: bold;">Kode OTP</label>
+                    <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;">Cek kotak masuk atau spam email kamu.</p>
+                    <input type="text" id="otpCode" placeholder="Masukkan 6 digit angka">
+                </div>
+                <button type="submit" class="dl-btn" style="width: 100%; margin-top: 10px;" id="authSubmitBtn">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;"><span id="authToggleText">Belum punya akun?</span> <a href="#" id="toggleAuthMode" style="color: #1d9bf0; font-weight: 600; text-decoration: none;">Daftar Sekarang</a></p>
+        </div>
+    </div>
+
+    <!-- MODAL UPLOAD KARYA -->
+    <div id="uploadModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box" style="border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 450px;">
+            <div class="modal-header"><h2>Upload Karya Baru</h2><button id="closeUploadModalBtn" class="close-btn">&times;</button></div>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group"><label>Judul Karya</label><input type="text" id="upTitle" required placeholder="Contoh: Mod Tas Ransel"></div>
+                <div class="form-group"><label>Deskripsi Singkat</label><input type="text" id="upDesc" required placeholder="Jelaskan secara singkat..."></div>
+                <div style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex: 1;"><label>Edisi</label>
+                        <select id="upEdition" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;" required>
+                            <option value="Java">Java</option><option value="Bedrock">Bedrock</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1;"><label>Kategori</label>
+                        <select id="upCategory" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;" required>
+                            <option value="Mod">Mod</option><option value="Add-on">Add-on</option>
+                            <option value="Resource Pack">Resource Pack</option><option value="World">World</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"><label>Versi Game</label><input type="text" id="upVersion" placeholder="Contoh: 1.20" required></div>
+                <div class="form-group"><label>Gambar Banner (.png / .jpg)</label><input type="file" id="upImage" accept="image/*" required style="padding: 10px; border: 1px solid #ccc; width: 100%; border-radius: 6px; background: #f8fafc;"></div>
+                <div class="form-group"><label>File Mod (.zip / .mcpack)</label><input type="file" id="upFile" required style="padding: 10px; border: 1px solid #ccc; width: 100%; border-radius: 6px; background: #f8fafc;"></div>
+                <button type="submit" class="dl-btn btn-success" style="width: 100%; margin-top: 10px;">Publikasikan Karya</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL KOMENTAR -->
+    <div id="commentModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box" style="border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 500px;">
+            <div class="modal-header">
+                <h2 id="commentTitle">Komentar</h2>
+                <button id="closeCommentModalBtn" class="close-btn">&times;</button>
+            </div>
+            
+            <div class="comment-list" id="commentList">
+                <!-- Komentar akan dimuat di sini oleh JS -->
+            </div>
+
+            <form id="commentForm" class="comment-input-area">
+                <input type="text" id="commentInput" class="comment-input" placeholder="Tulis komentar..." required autocomplete="off">
+                <button type="submit" class="dl-btn" style="padding: 10px 20px;">Kirim</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

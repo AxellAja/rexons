@@ -1,0 +1,324 @@
+/* =========================================
+   VARIABEL WARNA & PENGATURAN DASAR
+   ========================================= */
+:root {
+    --bg-color: #f8fafc;        /* Latar belakang web (abu-abu sangat terang) */
+    --text-main: #0f172a;       /* Warna teks utama (biru sangat gelap) */
+    --text-muted: #64748b;      /* Warna teks redup/deskripsi */
+    --border-color: #e2e8f0;    /* Warna garis batas */
+    --accent-blue: #1d9bf0;     /* Warna biru utama Rexons */
+    --card-bg: #ffffff;         /* Latar belakang kartu */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* =========================================
+   NAVBAR (HEADER)
+   ========================================= */
+.navbar {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent-blue);
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.search-box input {
+    padding: 10px 16px;
+    width: 250px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background-color: var(--bg-color);
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.2);
+    width: 300px;
+    background-color: white;
+}
+
+/* =========================================
+   TATA LETAK UTAMA (LAYOUT)
+   ========================================= */
+.layout-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* =========================================
+   SIDEBAR (FILTER KIRI)
+   ========================================= */
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    position: sticky;
+    top: 90px;
+}
+
+.sidebar h3 {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.filter-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-btn {
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* =========================================
+   AREA KONTEN UTAMA & KARTU KARYA
+   ========================================= */
+.content-area {
+    flex: 1;
+    min-width: 0; /* Mencegah overflow pada flexbox */
+}
+
+.results-header {
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+/* Elemen di dalam Kartu */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.project-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.3;
+}
+
+.badge {
+    background-color: var(--bg-color);
+    color: var(--accent-blue);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid #bae6fd;
+}
+
+.project-author {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
+.project-author span {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.project-desc {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    display: -webkit-box;
+    line-clamp: 3; /* Maksimal 3 baris deskripsi */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.meta-stats {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* =========================================
+   MODAL POP-UP & FORMULAR
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px); /* Efek blur ala Apple */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: var(--card-bg);
+    width: 90%;
+    max-width: 400px;
+    padding: 25px;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    color: var(--text-main);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #e74c3c;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 6px;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.1);
+}
+
+/* =========================================
+   RESPONSIVITAS (UNTUK HP & TABLET)
+   ========================================= */
+@media (max-width: 850px) {
+    .layout-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        position: static;
+    }
+    
+    .search-box input {
+        width: 150px;
+    }
+    
+    .search-box input:focus {
+        width: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .search-box {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .search-box input, 
+    .search-box input:focus {
+        width: 100%;
+    }
+}
