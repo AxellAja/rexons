@@ -1,0 +1,21 @@
+# 1. Dependensi Node.js
+node_modules/
+
+# 2. Database Lokal
+database.db
+database.sqlite
+
+# 3. Kredensial Rahasia
+.env
+
+# 4. Folder Hasil Upload Pengguna
+public/uploads/
+
+# 5. File Log Error
+*.log
+npm-debug.log*
+
+# 6. File Bawaan Editor / Sistem Operasi
+.vscode/
+.DS_Store
+Thumbs.db
